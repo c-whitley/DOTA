@@ -134,3 +134,4 @@ dmypy.json
 # Large data files
 /mongo/dota_data/**
 Stats_Data/*
+/Condor_API/total_data.pkl
