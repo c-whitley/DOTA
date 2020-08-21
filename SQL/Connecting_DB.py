@@ -1,6 +1,37 @@
 import mysql.connector
 from mysql.connector import Error
 
+import numpy as np
+import pandas as pd
+
+import glob
+import pickle
+
+
+def pickle_read(file_name):
+    """[summary]
+
+    Args:
+        file_name ([type]): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    with open(file_name, "rb") as file:
+
+        dict_ = pickle.load(file)
+    return dict_
+
+def pickle_write(obj, filename):
+    """[summary]
+
+    Args:
+        obj ([type]): [description]
+        filename ([type]): [description]
+    """
+    with open(filename, 'wb') as output:  # Overwrites any existing file.
+        pickle.dump(obj, output, pickle.HIGHEST_PROTOCOL)
+
 
 def create_connection(host_name, user_name, user_password, db_name):
     """Create a connection to a an mySQL database
@@ -29,7 +60,7 @@ def create_connection(host_name, user_name, user_password, db_name):
     return connection
 
 
-def execute_query(connection, query):
+def execute_query(connection, query, verbose=False):
     """[summary]
 
     Args:
@@ -40,6 +71,9 @@ def execute_query(connection, query):
     try:
         cursor.execute(query)
         connection.commit()
-        print("Query executed successfully")
+
+        if verbose:
+            print("Query executed successfully")
     except Error as e:
-        print(f"The error '{e}' occurred")
+        if verbose:
+            print(f"The error '{e}' occurred")
