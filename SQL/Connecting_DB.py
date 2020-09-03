@@ -59,21 +59,25 @@ def create_connection(host_name, user_name, user_password, db_name):
 
     return connection
 
-
-def execute_query(connection, query, verbose=False):
-    """[summary]
-
-    Args:
-        connection ([type]): [description]
-        query ([type]): [description]
-    """
+def execute_query(connection, query,verbose=False):
     cursor = connection.cursor()
     try:
         cursor.execute(query)
         connection.commit()
-
-        if verbose:
+        if verbose: 
             print("Query executed successfully")
+    except Error as e:
+        if verbose:
+            print(f"The error '{e}' occurred")
+
+
+def execute_read_query(connection, query, verbose=False):
+    cursor = connection.cursor()
+    result = None
+    try:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
     except Error as e:
         if verbose:
             print(f"The error '{e}' occurred")
